@@ -29,7 +29,6 @@ body {
 	text-align: center;
 	border: 2px solid white;
 	position: absolute;
-	padding-top: 11px;
 }
 
 #guardia {
@@ -77,4 +76,18 @@ body {
 	text-align: center;
 	font-weight: bold;
 	font-size: 32px;
+}
+
+#guardia, #ladro {
+    width: 50px; 
+    height: 50px;
+    position: absolute;
+    overflow: hidden; 
+
+}
+
+#guardia img, #ladro img {
+    width: 50px; 
+    height: 50px;
+    object-fit: cover; 
 }
