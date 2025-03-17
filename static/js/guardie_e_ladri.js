@@ -12,24 +12,39 @@ function muoviGuardia(direzione) {
 
     let left = parseInt(guardia.style.left) || 0;
     let top = parseInt(guardia.style.top) || 0;
+    let mossaEffettuata = false;
 
     switch (direzione) {
         case "su":
-            if (top > 0) guardia.style.top = (top - 50) + "px";
+            if (top > 0) {
+                guardia.style.top = (top - 50) + "px";
+                mossaEffettuata = true;
+            }
             break;
         case "giu":
-            if (top < stanzaHeight - 50) guardia.style.top = (top + 50) + "px";
+            if (top < stanzaHeight - 50) {
+                guardia.style.top = (top + 50) + "px";
+                mossaEffettuata = true;
+            }
             break;
         case "sinistra":
-            if (left > 0) guardia.style.left = (left - 50) + "px";
+            if (left > 0) {
+                guardia.style.left = (left - 50) + "px";
+                mossaEffettuata = true;
+            }
             break;
         case "destra":
-            if (left < stanzaWidth - 50) guardia.style.left = (left + 50) + "px";
+            if (left < stanzaWidth - 50) {
+                guardia.style.left = (left + 50) + "px";
+                mossaEffettuata = true;
+            }
             break;
     }
 
-    muoviLadro(); 
-    verificaVittoria(); 
+    if(mossaEffettuata) {
+        muoviLadro(); 
+        verificaVittoria(); 
+    }
 }
 
 function muoviLadro() {
@@ -37,21 +52,42 @@ function muoviLadro() {
     let top = parseInt(ladro.style.top) || 0;
 
     let direzioni = ["su", "giu", "sinistra", "destra"];
-    let scelta = direzioni[Math.floor(Math.random() * 4)];
+    let mossaEffettuata = false;
 
-    switch (scelta) {
-        case "su":
-            if (top > 0) ladro.style.top = (top - 50) + "px";
-            break;
-        case "giu":
-            if (top < stanzaHeight - 50) ladro.style.top = (top + 50) + "px";
-            break;
-        case "sinistra":
-            if (left > 0) ladro.style.left = (left - 50) + "px";
-            break;
-        case "destra":
-            if (left < stanzaWidth - 50) ladro.style.left = (left + 50) + "px";
-            break;
+    while (!mossaEffettuata && direzioni.length > 0) {
+        let indice = Math.floor(Math.random() * direzioni.length);
+        let scelta = direzioni[indice];
+
+        switch (scelta) {
+            case "su":
+                if (top > 0) {
+                    ladro.style.top = (top - 50) + "px";
+                    mossaEffettuata = true;
+                }
+                break;
+            case "giu":
+                if (top < stanzaHeight - 50) {
+                    ladro.style.top = (top + 50) + "px";
+                    mossaEffettuata = true;
+                }
+                break;
+            case "sinistra":
+                if (left > 0) {
+                    ladro.style.left = (left - 50) + "px";
+                    mossaEffettuata = true;
+                }
+                break;
+            case "destra":
+                if (left < stanzaWidth - 50) {
+                    ladro.style.left = (left + 50) + "px";
+                    mossaEffettuata = true;
+                }
+                break;
+        }
+
+        if (!mossaEffettuata) {
+            direzioni.splice(indice, 1);
+        }
     }
 }
 
@@ -64,7 +100,6 @@ function verificaVittoria() {
 
     mosseRestanti--;
 
-    // Verifica se la guardia ha raggiunto il ladro (con una distanza inferiore a 50px)
     if (Math.abs(leftGuardia - leftLadro) < 50 && Math.abs(topGuardia - topLadro) < 50) {
         esito.innerText = "La guardia ha catturato il ladro! Hai vinto!";
         disabilitaPulsanti();
